@@ -1,6 +1,6 @@
-name: NyxonCrates
+name: modernCrates
 version: ${version}
-main: net.nyxon.crates.NyxonCrates
+main: net.modern.crates.ModernCrates
 api-version: '1.21'
 softdepend: [PlaceholderAPI, Vault, MMOItems, ItemsAdder, Nexo]
 permissions:

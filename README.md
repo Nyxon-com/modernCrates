@@ -1,9 +1,9 @@
-# NyxonCrates
+# ModernCrates
 
 Plugin crate per **Paper 1.21**. Chiavi fisiche, virtuali e lootbox, editor in game, preview per slot, item vanilla / MMOItems / ItemsAdder / Nexo.
 
-Cartella dati: `plugins/NyxonCrates/`  
-JAR: `NyxonCrates-1.0.0.jar`
+Cartella dati: `plugins/ModernCrates/`  
+JAR: `ModernCrates-1.0.0.jar`
 
 ## Requisiti
 
@@ -20,7 +20,7 @@ JAR: `NyxonCrates-1.0.0.jar`
 
 1. Metti il JAR in `plugins/`.
 2. Avvia il server: vengono creati `config.yml`, `messages.yml`, `animations.yml`, `keys.yml` e `crates/example.yml`.
-3. Per MySQL/MariaDB modifica `database` in `config.yml`. SQLite parte da solo (`plugins/NyxonCrates/data.db`).
+3. Per MySQL/MariaDB modifica `database` in `config.yml`. SQLite parte da solo (`plugins/ModernCrates/data.db`).
 4. `/crate reload` o riavvio.
 
 ## Quick start
@@ -197,8 +197,8 @@ database:
   driver: sqlite   # sqlite | mysql | mariadb
 ```
 
-SQLite: `plugins/NyxonCrates/data.db` (aperture, leaderboard, chiavi virtuali, milestone). MySQL: `driver: mysql`, `host`, `port`, `database`, `user`, `password`.
+SQLite: `plugins/ModernCrates/data.db` (aperture, leaderboard, chiavi virtuali, milestone). MySQL: `driver: mysql`, `host`, `port`, `database`, `user`, `password`.
 
 ## License
 
-MIT. Nyxon / NyxonCrates.
+MIT. Nyxon / ModernCrates.

@@ -1,4 +1,3 @@
-// made by nyxon
 package net.modern.crates.key;
 
 import net.modern.crates.ModernCrates;

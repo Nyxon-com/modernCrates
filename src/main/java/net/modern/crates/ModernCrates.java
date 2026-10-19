@@ -1,4 +1,3 @@
-// made by nyxon
 package net.modern.crates;
 
 import net.modern.crates.animation.AnimationSession;

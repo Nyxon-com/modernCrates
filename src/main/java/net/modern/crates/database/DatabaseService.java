@@ -1,4 +1,3 @@
-// made by nyxon
 package net.modern.crates.database;
 
 import com.zaxxer.hikari.HikariConfig;

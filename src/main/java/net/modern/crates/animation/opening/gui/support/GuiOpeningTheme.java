@@ -1,4 +1,3 @@
-// made by nyxon
 package net.modern.crates.animation.opening.gui.support;
 
 import net.kyori.adventure.text.Component;

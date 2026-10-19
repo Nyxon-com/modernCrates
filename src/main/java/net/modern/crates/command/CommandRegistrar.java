@@ -1,4 +1,3 @@
-// made by nyxon
 package net.modern.crates.command;
 
 import co.aikar.commands.ConditionFailedException;

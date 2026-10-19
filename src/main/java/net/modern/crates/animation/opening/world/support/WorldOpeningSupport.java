@@ -1,4 +1,3 @@
-// made by nyxon
 package net.modern.crates.animation.opening.world.support;
 
 import net.modern.crates.ModernCrates;

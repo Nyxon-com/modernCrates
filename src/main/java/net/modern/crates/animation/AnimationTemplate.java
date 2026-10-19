@@ -1,4 +1,3 @@
-// made by nyxon
 package net.modern.crates.animation;
 
 import org.bukkit.Particle;

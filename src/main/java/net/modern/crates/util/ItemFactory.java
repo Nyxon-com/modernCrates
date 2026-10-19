@@ -1,4 +1,3 @@
-// made by nyxon
 package net.modern.crates.util;
 
 import net.modern.crates.config.MiniMessageService;

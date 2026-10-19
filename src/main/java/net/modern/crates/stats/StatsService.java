@@ -1,4 +1,3 @@
-// made by nyxon
 package net.modern.crates.stats;
 
 import com.github.benmanes.caffeine.cache.Cache;

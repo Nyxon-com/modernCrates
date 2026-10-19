@@ -1,4 +1,3 @@
-// made by nyxon
 package net.modern.crates.item;
 
 public enum ItemProvider {

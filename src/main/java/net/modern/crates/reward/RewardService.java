@@ -1,4 +1,3 @@
-// made by nyxon
 package net.modern.crates.reward;
 
 import net.modern.crates.ModernCrates;

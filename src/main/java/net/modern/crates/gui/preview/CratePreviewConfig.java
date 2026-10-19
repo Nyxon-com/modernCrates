@@ -1,4 +1,3 @@
-// made by nyxon
 package net.modern.crates.gui.preview;
 
 import org.bukkit.configuration.ConfigurationSection;

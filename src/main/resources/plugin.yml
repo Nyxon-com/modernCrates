@@ -1,7 +1,7 @@
 name: modernCrates
 version: ${version}
 main: net.modern.crates.ModernCrates
-api-version: '1.21'
+api-version: '26.2'
 softdepend: [PlaceholderAPI, Vault, MMOItems, ItemsAdder, Nexo]
 permissions:
   nyxoncrates.admin:    { default: op }

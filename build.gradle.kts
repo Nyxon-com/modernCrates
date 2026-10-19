@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:26.2.build.134-stable")
     compileOnly("me.clip:placeholderapi:2.11.6")
     compileOnly("net.Indyuce:MMOItems-API:6.9.5-SNAPSHOT")
     compileOnly("io.lumine:MythicLib-dist:1.6.2-SNAPSHOT")
@@ -34,7 +34,7 @@ dependencies {
         exclude(group = "org.slf4j")
     }
     implementation("com.github.ben-manes.caffeine:caffeine:3.2.4")
-    testImplementation("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
+    testImplementation("io.papermc.paper:paper-api:26.2.build.134-stable")
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }

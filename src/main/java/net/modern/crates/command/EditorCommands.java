@@ -1,3 +1,5 @@
+//made with love by nyxon
+
 package net.modern.crates.command;
 
 import co.aikar.commands.BaseCommand;
@@ -21,31 +23,31 @@ import org.bukkit.entity.Player;
 @Description("Editor crate")
 public final class EditorCommands extends BaseCommand {
 
-    private final ModernCrates plugin;
+  private final ModernCrates plugin;
 
-    public EditorCommands(ModernCrates plugin) {
-        this.plugin = plugin;
-    }
+  public EditorCommands(ModernCrates plugin) {
+    this.plugin = plugin;
+  }
 
-    @Default
-    @Subcommand("editor")
-    @CommandCompletion("@crates")
-    @Syntax("[crate]")
-    public void onEditor(Player player, @Optional CrateDefinition crate) {
-        CrateEditorSession session = plugin.guiManager().getOrCreate(player);
-        if (crate == null) {
-            session.currentPage(CrateEditorSession.Page.CRATE_LIST);
-            CrateListGui.open(player, plugin);
-            return;
-        }
-        session.loadFrom(crate);
-        session.currentPage(CrateEditorSession.Page.CRATE_EDITOR);
-        CrateEditorGui.open(player, plugin, session);
+  @Default
+  @Subcommand("editor")
+  @CommandCompletion("@crates")
+  @Syntax("[crate]")
+  public void onEditor(Player player, @Optional CrateDefinition crate) {
+    CrateEditorSession session = plugin.guiManager().getOrCreate(player);
+    if (crate == null) {
+      session.currentPage(CrateEditorSession.Page.CRATE_LIST);
+      CrateListGui.open(player, plugin);
+      return;
     }
+    session.loadFrom(crate);
+    session.currentPage(CrateEditorSession.Page.CRATE_EDITOR);
+    CrateEditorGui.open(player, plugin, session);
+  }
 
-    @Subcommand("reload")
-    public void onReload(Player player) {
-        plugin.reloadPlugin();
-        plugin.messages().send(player, "reload");
-    }
+  @Subcommand("reload")
+  public void onReload(Player player) {
+    plugin.reloadPlugin();
+    plugin.messages().send(player, "reload");
+  }
 }

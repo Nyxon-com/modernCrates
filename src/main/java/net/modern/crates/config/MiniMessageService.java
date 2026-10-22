@@ -1,3 +1,5 @@
+//made with love by nyxon
+
 package net.modern.crates.config;
 
 import com.github.benmanes.caffeine.cache.Cache;
@@ -9,42 +11,42 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public final class MiniMessageService {
 
-    private static final MiniMessageService SHARED = new MiniMessageService();
-    private static final Component EMPTY = Component.empty().decoration(TextDecoration.ITALIC, false);
+  private static final MiniMessageService SHARED = new MiniMessageService();
+  private static final Component EMPTY = Component.empty().decoration(TextDecoration.ITALIC, false);
 
-    private final MiniMessage miniMessage = MiniMessage.miniMessage();
-    private final Cache<String, Component> components = Caffeine.newBuilder()
-            .maximumSize(4096)
-            .build();
+  private final MiniMessage miniMessage = MiniMessage.miniMessage();
+  private final Cache<String, Component> components = Caffeine.newBuilder()
+      .maximumSize(4096)
+      .build();
 
-    private MiniMessageService() {}
+  private MiniMessageService() {}
 
-    public static MiniMessageService shared() {
-        return SHARED;
+  public static MiniMessageService shared() {
+    return SHARED;
+  }
+
+  public Component parse(String raw) {
+    if (raw == null || raw.isBlank()) return EMPTY;
+    return components.get(raw, this::parseUncached);
+  }
+
+  private Component parseUncached(String raw) {
+    try {
+      return EMPTY
+          .append(miniMessage.deserialize(MessageService.legacyToMini(raw)));
+    } catch (Exception e) {
+      return EMPTY
+          .append(LegacyComponentSerializer.legacyAmpersand().deserialize(raw));
     }
+  }
 
-    public Component parse(String raw) {
-        if (raw == null || raw.isBlank()) return EMPTY;
-        return components.get(raw, this::parseUncached);
-    }
+  public String serialize(Component component) {
+    if (component == null) return "";
+    return miniMessage.serialize(component.decoration(TextDecoration.ITALIC,
+        TextDecoration.State.NOT_SET));
+  }
 
-    private Component parseUncached(String raw) {
-        try {
-            return EMPTY
-                    .append(miniMessage.deserialize(MessageService.legacyToMini(raw)));
-        } catch (Exception e) {
-            return EMPTY
-                    .append(LegacyComponentSerializer.legacyAmpersand().deserialize(raw));
-        }
-    }
-
-    public String serialize(Component component) {
-        if (component == null) return "";
-        return miniMessage.serialize(component.decoration(TextDecoration.ITALIC,
-                TextDecoration.State.NOT_SET));
-    }
-
-    public void clear() {
-        components.invalidateAll();
-    }
+  public void clear() {
+    components.invalidateAll();
+  }
 }

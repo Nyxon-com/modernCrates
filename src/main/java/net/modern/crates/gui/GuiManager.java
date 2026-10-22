@@ -1,3 +1,5 @@
+//made with love by nyxon
+
 package net.modern.crates.gui;
 
 import net.modern.crates.ModernCrates;
@@ -11,47 +13,47 @@ import java.util.function.Consumer;
 
 public final class GuiManager {
 
-    public record PendingInput(Consumer<String> callback, String defaultValue, BukkitTask timeout) {}
+  public record PendingInput(Consumer<String> callback, String defaultValue, BukkitTask timeout) {}
 
-    private final ModernCrates plugin;
-    private final Map<UUID, CrateEditorSession> sessions = new HashMap<>();
-    private final Map<UUID, PendingInput> pendingInput = new HashMap<>();
+  private final ModernCrates plugin;
+  private final Map<UUID, CrateEditorSession> sessions = new HashMap<>();
+  private final Map<UUID, PendingInput> pendingInput = new HashMap<>();
 
-    public GuiManager(ModernCrates plugin) { this.plugin = plugin; }
+  public GuiManager(ModernCrates plugin) { this.plugin = plugin; }
 
-    public CrateEditorSession getOrCreate(Player player) {
-        return sessions.computeIfAbsent(player.getUniqueId(), k -> new CrateEditorSession(player));
-    }
+  public CrateEditorSession getOrCreate(Player player) {
+    return sessions.computeIfAbsent(player.getUniqueId(), k -> new CrateEditorSession(player));
+  }
 
-    public CrateEditorSession session(Player player) {
-        return sessions.get(player.getUniqueId());
-    }
+  public CrateEditorSession session(Player player) {
+    return sessions.get(player.getUniqueId());
+  }
 
-    public void removeSession(Player player) {
-        sessions.remove(player.getUniqueId());
-    }
+  public void removeSession(Player player) {
+    sessions.remove(player.getUniqueId());
+  }
 
-    public boolean hasSession(Player player) {
-        return sessions.containsKey(player.getUniqueId());
-    }
+  public boolean hasSession(Player player) {
+    return sessions.containsKey(player.getUniqueId());
+  }
 
-    public void setPendingInput(Player player, PendingInput input) {
-        PendingInput previous = pendingInput.put(player.getUniqueId(), input);
-        if (previous != null && previous.timeout() != null) previous.timeout().cancel();
-    }
+  public void setPendingInput(Player player, PendingInput input) {
+    PendingInput previous = pendingInput.put(player.getUniqueId(), input);
+    if (previous != null && previous.timeout() != null) previous.timeout().cancel();
+  }
 
-    public PendingInput takePendingInput(Player player) {
-        PendingInput input = pendingInput.remove(player.getUniqueId());
-        if (input != null && input.timeout() != null) input.timeout().cancel();
-        return input;
-    }
+  public PendingInput takePendingInput(Player player) {
+    PendingInput input = pendingInput.remove(player.getUniqueId());
+    if (input != null && input.timeout() != null) input.timeout().cancel();
+    return input;
+  }
 
-    public boolean hasPendingInput(Player player) {
-        return pendingInput.containsKey(player.getUniqueId());
-    }
+  public boolean hasPendingInput(Player player) {
+    return pendingInput.containsKey(player.getUniqueId());
+  }
 
-    public void removePendingInput(Player player) {
-        PendingInput input = pendingInput.remove(player.getUniqueId());
-        if (input != null && input.timeout() != null) input.timeout().cancel();
-    }
+  public void removePendingInput(Player player) {
+    PendingInput input = pendingInput.remove(player.getUniqueId());
+    if (input != null && input.timeout() != null) input.timeout().cancel();
+  }
 }

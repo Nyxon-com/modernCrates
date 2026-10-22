@@ -1,3 +1,5 @@
+//made with love by nyxon
+
 package net.modern.crates.animation.opening.world;
 
 import net.modern.crates.ModernCrates;
@@ -20,102 +22,102 @@ import java.util.Random;
 
 public final class RewardRollAnimation implements CrateAnimation {
 
-    private final ModernCrates plugin;
-    private final AnimationTemplate template;
-    private final Random rng = new Random();
+  private final ModernCrates plugin;
+  private final AnimationTemplate template;
+  private final Random rng = new Random();
 
-    public RewardRollAnimation(ModernCrates plugin, AnimationTemplate template) {
-        this.plugin = plugin;
-        this.template = template;
+  public RewardRollAnimation(ModernCrates plugin, AnimationTemplate template) {
+    this.plugin = plugin;
+    this.template = template;
+  }
+
+  @Override
+  public boolean isWorldAnimation() {
+    return true;
+  }
+
+  @Override
+  public void play(Player player, Location location, CrateDefinition crate, RewardDefinition reward, Runnable reveal) {
+    List<RewardDefinition> pool = GuiOpeningSupport.pool(crate);
+    if (pool.isEmpty() || !WorldOpeningSupport.chunkReady(location)) {
+      reveal.run();
+      return;
     }
 
-    @Override
-    public boolean isWorldAnimation() {
-        return true;
-    }
+    Location hover = location.clone().add(0, 1.35, 0);
+    ItemDisplay display = WorldOpeningSupport.spawnItem(hover, pool.get(0).preview(), 0.7f, false);
+    ArmorStand name = WorldOpeningSupport.spawnName(hover.clone().add(0, 0.45, 0), pool.get(0));
+    AnimationSession session = WorldOpeningSupport.begin(plugin, player, reveal);
+    int maxSpins = Math.max(16, template.duration() / 3);
 
-    @Override
-    public void play(Player player, Location location, CrateDefinition crate, RewardDefinition reward, Runnable reveal) {
-        List<RewardDefinition> pool = GuiOpeningSupport.pool(crate);
-        if (pool.isEmpty() || !WorldOpeningSupport.chunkReady(location)) {
-            reveal.run();
-            return;
+    new BukkitRunnable() {
+      int ticks = 0;
+      int spins = 0;
+      int linger = -1;
+      final RewardDefinition[] last = {pool.get(0)};
+
+      @Override
+      public void run() {
+        if (GuiOpeningSupport.aborted(player, session)) {
+          cleanup();
+          cancel();
+          return;
         }
 
-        Location hover = location.clone().add(0, 1.35, 0);
-        ItemDisplay display = WorldOpeningSupport.spawnItem(hover, pool.get(0).preview(), 0.7f, false);
-        ArmorStand name = WorldOpeningSupport.spawnName(hover.clone().add(0, 0.45, 0), pool.get(0));
-        AnimationSession session = WorldOpeningSupport.begin(plugin, player, reveal);
-        int maxSpins = Math.max(16, template.duration() / 3);
+        ticks++;
+        if (ticks % 4 == 0) {
+          WorldOpeningSupport.ring(hover.getWorld(), hover, template.particle(), 0.55, 8);
+        }
 
-        new BukkitRunnable() {
-            int ticks = 0;
-            int spins = 0;
-            int linger = -1;
-            final RewardDefinition[] last = {pool.get(0)};
-
-            @Override
-            public void run() {
-                if (GuiOpeningSupport.aborted(player, session)) {
-                    cleanup();
-                    cancel();
-                    return;
-                }
-
-                ticks++;
-                if (ticks % 4 == 0) {
-                    WorldOpeningSupport.ring(hover.getWorld(), hover, template.particle(), 0.55, 8);
-                }
-
-                if (linger >= 0) {
-                    if (++linger >= 20) {
-                        cleanup();
-                        plugin.takeAnimSession(player.getUniqueId());
-                        if (session.finish()) {
-                            reveal.run();
-                        }
-                        if (player.isOnline()) {
-                            player.playSound(player.getLocation(), template.finalSound(), template.volume(), template.pitch());
-                        }
-                        cancel();
-                    }
-                    return;
-                }
-
-                if (ticks % interval(spins) != 0) {
-                    return;
-                }
-
-                spins++;
-                if (spins < maxSpins) {
-                    RewardDefinition shown = GuiOpeningSupport.pickFiller(pool, reward, rng);
-                    if (shown != last[0]) {
-                        last[0] = shown;
-                    display.setItemStack(shown.preview());
-                        name.customName(shown.displayComponent());
-                    }
-                    player.playSound(player, template.sound(), 0.4f, 1.3f - spins * 0.02f);
-                    return;
-                }
-
-                display.setItemStack(reward.preview());
-                display.setGlowing(true);
-                name.customName(reward.displayComponent());
-                hover.getWorld().spawnParticle(Particle.TOTEM_OF_UNDYING, hover, 18, 0.2, 0.2, 0.2, 0.05);
-                linger = 0;
+        if (linger >= 0) {
+          if (++linger >= 20) {
+            cleanup();
+            plugin.takeAnimSession(player.getUniqueId());
+            if (session.finish()) {
+              reveal.run();
             }
-
-            private void cleanup() {
-                WorldOpeningSupport.remove(display);
-                WorldOpeningSupport.remove(name);
+            if (player.isOnline()) {
+              player.playSound(player.getLocation(), template.finalSound(), template.volume(), template.pitch());
             }
-        }.runTaskTimer(plugin, 1L, 1L);
-    }
+            cancel();
+          }
+          return;
+        }
 
-    private static int interval(int spins) {
-        if (spins < 8) return 2;
-        if (spins < 12) return 3;
-        if (spins < 16) return 5;
-        return 7;
-    }
+        if (ticks % interval(spins) != 0) {
+          return;
+        }
+
+        spins++;
+        if (spins < maxSpins) {
+          RewardDefinition shown = GuiOpeningSupport.pickFiller(pool, reward, rng);
+          if (shown != last[0]) {
+            last[0] = shown;
+          display.setItemStack(shown.preview());
+            name.customName(shown.displayComponent());
+          }
+          player.playSound(player, template.sound(), 0.4f, 1.3f - spins * 0.02f);
+          return;
+        }
+
+        display.setItemStack(reward.preview());
+        display.setGlowing(true);
+        name.customName(reward.displayComponent());
+        hover.getWorld().spawnParticle(Particle.TOTEM_OF_UNDYING, hover, 18, 0.2, 0.2, 0.2, 0.05);
+        linger = 0;
+      }
+
+      private void cleanup() {
+        WorldOpeningSupport.remove(display);
+        WorldOpeningSupport.remove(name);
+      }
+    }.runTaskTimer(plugin, 1L, 1L);
+  }
+
+  private static int interval(int spins) {
+    if (spins < 8) return 2;
+    if (spins < 12) return 3;
+    if (spins < 16) return 5;
+    return 7;
+  }
 }

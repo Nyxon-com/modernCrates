@@ -1,3 +1,5 @@
+//made with love by nyxon
+
 package net.modern.crates.command;
 
 import co.aikar.commands.BaseCommand;
@@ -18,44 +20,44 @@ import org.bukkit.entity.Player;
 @Description("Saldo chiavi")
 public final class KeyCommands extends BaseCommand {
 
-    private final KeyActions keys;
+  private final KeyActions keys;
 
-    public KeyCommands(KeyActions keys) {
-        this.keys = keys;
-    }
+  public KeyCommands(KeyActions keys) {
+    this.keys = keys;
+  }
 
-    @Default
-    @CommandCompletion("@crates")
-    @Syntax("[crate]")
-    public void onBalance(Player player, @Optional CrateDefinition crate) {
-        if (crate == null) {
-            keys.list(player);
-        } else {
-            keys.show(player, crate);
-        }
+  @Default
+  @CommandCompletion("@crates")
+  @Syntax("[crate]")
+  public void onBalance(Player player, @Optional CrateDefinition crate) {
+    if (crate == null) {
+      keys.list(player);
+    } else {
+      keys.show(player, crate);
     }
+  }
 
-    @Subcommand("give")
-    @Conditions("keyadmin")
-    @CommandCompletion("@players @crates @amounts")
-    @Syntax("<giocatore> <crate> [quantita]")
-    public void onGive(CommandSender sender, OnlinePlayer target, CrateDefinition crate, @Default("1") int amount) {
-        keys.give(sender, target.getPlayer(), crate, amount);
-    }
+  @Subcommand("give")
+  @Conditions("keyadmin")
+  @CommandCompletion("@players @crates @amounts")
+  @Syntax("<giocatore> <crate> [quantita]")
+  public void onGive(CommandSender sender, OnlinePlayer target, CrateDefinition crate, @Default("1") int amount) {
+    keys.give(sender, target.getPlayer(), crate, amount);
+  }
 
-    @Subcommand("take")
-    @Conditions("keyadmin")
-    @CommandCompletion("@players @crates @amounts")
-    @Syntax("<giocatore> <crate> [quantita]")
-    public void onTake(CommandSender sender, OnlinePlayer target, CrateDefinition crate, @Default("1") int amount) {
-        keys.take(sender, target.getPlayer(), crate, amount);
-    }
+  @Subcommand("take")
+  @Conditions("keyadmin")
+  @CommandCompletion("@players @crates @amounts")
+  @Syntax("<giocatore> <crate> [quantita]")
+  public void onTake(CommandSender sender, OnlinePlayer target, CrateDefinition crate, @Default("1") int amount) {
+    keys.take(sender, target.getPlayer(), crate, amount);
+  }
 
-    @Subcommand("set")
-    @Conditions("keyadmin")
-    @CommandCompletion("@players @crates @amounts")
-    @Syntax("<giocatore> <crate> <quantita>")
-    public void onSet(CommandSender sender, OnlinePlayer target, CrateDefinition crate, int amount) {
-        keys.set(sender, target.getPlayer(), crate, amount);
-    }
+  @Subcommand("set")
+  @Conditions("keyadmin")
+  @CommandCompletion("@players @crates @amounts")
+  @Syntax("<giocatore> <crate> <quantita>")
+  public void onSet(CommandSender sender, OnlinePlayer target, CrateDefinition crate, int amount) {
+    keys.set(sender, target.getPlayer(), crate, amount);
+  }
 }

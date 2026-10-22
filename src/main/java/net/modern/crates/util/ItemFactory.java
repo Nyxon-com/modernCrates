@@ -1,3 +1,5 @@
+//made with love by nyxon
+
 package net.modern.crates.util;
 
 import net.modern.crates.config.MiniMessageService;
@@ -11,35 +13,35 @@ import java.util.List;
 
 public final class ItemFactory {
 
-    private ItemFactory() { }
+  private ItemFactory() { }
 
-    public static ItemStack create(Material material, int amount, String name,
-                                   List<String> lore, boolean glow) {
-        return create(material, amount, name, lore, glow, 0);
+  public static ItemStack create(Material material, int amount, String name,
+                   List<String> lore, boolean glow) {
+    return create(material, amount, name, lore, glow, 0);
+  }
+
+  public static ItemStack create(Material material, int amount, String name,
+                   List<String> lore, boolean glow, int customModelData) {
+    ItemStack item = new ItemStack(material, Math.max(1, amount));
+    ItemMeta meta = item.getItemMeta();
+    if (meta == null) return item;
+
+    if (name != null) {
+      meta.displayName(MiniMessageService.shared().parse(name));
     }
-
-    public static ItemStack create(Material material, int amount, String name,
-                                   List<String> lore, boolean glow, int customModelData) {
-        ItemStack item = new ItemStack(material, Math.max(1, amount));
-        ItemMeta meta = item.getItemMeta();
-        if (meta == null) return item;
-
-        if (name != null) {
-            meta.displayName(MiniMessageService.shared().parse(name));
-        }
-        if (lore != null && !lore.isEmpty()) {
-            meta.lore(lore.stream()
-                    .map(line -> MiniMessageService.shared().parse(line))
-                    .toList());
-        }
-        if (glow) {
-            meta.addEnchant(Enchantment.UNBREAKING, 1, true);
-            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        }
-        if (customModelData > 0) {
-            meta.setCustomModelData(customModelData);
-        }
-        item.setItemMeta(meta);
-        return item;
+    if (lore != null && !lore.isEmpty()) {
+      meta.lore(lore.stream()
+          .map(line -> MiniMessageService.shared().parse(line))
+          .toList());
     }
+    if (glow) {
+      meta.addEnchant(Enchantment.UNBREAKING, 1, true);
+      meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+    }
+    if (customModelData > 0) {
+      meta.setCustomModelData(customModelData);
+    }
+    item.setItemMeta(meta);
+    return item;
+  }
 }

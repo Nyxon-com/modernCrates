@@ -1,6 +1,6 @@
 # ModernCrates
 
-Plugin crate per **Paper 1.21**. Chiavi fisiche, virtuali e lootbox, editor in game, preview per slot, item vanilla / MMOItems / ItemsAdder / Nexo.
+Crate per Paper 1.21. Chiavi fisiche, virtuali e lootbox, editor in game, preview per slot. Item vanilla, MMOItems, ItemsAdder e Nexo.
 
 Cartella dati: `plugins/ModernCrates/`  
 JAR: `ModernCrates-1.0.0.jar`
